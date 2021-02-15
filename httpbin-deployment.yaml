@@ -1,0 +1,84 @@
+# oc adm policy add-scc-to-user anyuid -z default
+# oc expose svc httpbin-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin-service
+  labels:
+    app: httpbin-deployment
+spec:
+  selector:
+    app: httpbin-pod
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 443
+---
+apiVersion: v1
+data:
+ server.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlDV3dJQkFBS0JnUUNzMnh2eEhLVE5McUVWVjZwSExrbGZOc1g2V1FiZFptbzJxdDg0RXRtb1J4aHJPdmxyCmFVNyt2cml0QUpXR1padUk2VUFkejhySzU5eGZPK0V6Mm9KbTBLTjFldVRHSDV5RG9uYjB5aEViUlJTb3VRWHQKNVRyaVkvUUQvSExFNStudXJiaDVBRSthK0w0Q2ZqWGxQRlFsazA1c1MrSHJ6ZmRNbERKRzU5dlFEd0lEQVFBQgpBb0dBSWg4cWwrRUlvenhHTGhsZEVxb1BiODAzTGFFdldyc2gwbUxPcDVvSS8wL3hnUkZtTlE3WHVpL1o4c1MvCnY0VUZPL1NYWklzbFJBS2JITzJNR2hsVFRqZHFLai8wOXlVclVvQllzUnBSMmlnaTJhOHRqb1NidjVNN1BUTFMKcGs4ZVA3ZlYveTNGRmZjL2xXU244RC8zWGdNR21PN3RKQUtlcDdacysvbXJodGtDUVFEVEFiQUpqVTV6SWxEWApPRm5nWjBxQm56L1BpOUtzRlpDQnA3ZVloUnB3QnJtYjNxdTRGcUtvWUk3NE9xczMya09XYjN1bFo3T1BGcjFQCjVuVEdqMWI5QWtFQTBiYmZRNUU2SzFtZEgxeENQZGZmZkhWYW45Y2Q3bEpCVjJpSEZMZ2R6RzUxeTVhcEE5UksKOW0vREw1bHFWNWdaaTVkVHpITVQwZjFFQjhvelBOVisrd0pBWWlyVTFYelNWS3BRWmZDbmo4aytWcFBhUWhyUgpCcEo1eW5oVzZEUjBtazNtcUdldUNGVXZrNXBvcVgvU0RJZ1ZEYllNRm1YcW1kV0FlZDNEMG1UNW1RSkFDVGpqCmhKTWtYYmVwSXpIcGI5TElieTZ4OTRsOE5YakVpdFY3Nnp0VmhDSHZhQzZON0M4dnhMcVJlTXhrVXNuTGhjbjMKMDJ2VUdVM3I2ZlBJWVFwNmRRSkFXUmZpazJLUlNyOWw0a0VXSkZaOVVEcWtRczJnNmlzNXlJelRRWGpudXdjYgo2QndGcGxLaWdRMjZlblprQ2ZueEhEblpWcHFLdjJtVW5hQXEyTmZEMWc9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+ server.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNVVENDQWJvQ0NRRC9IUVBaUjdwZUtqQU5CZ2txaGtpRzl3MEJBUVVGQURCdE1Rc3dDUVlEVlFRR0V3SkcKVWpFUk1BOEdBMVVFQ0F3SVNYUERnOEtvY21VeEVUQVBCZ05WQkFjTUNFZHlaVzV2WW14bE1RNHdEQVlEVlFRSwpEQVZDVDBsT1FURW9NQ1lHQTFVRUF3d2ZhSFIwY0dKcGJpNWhjSEJ6TG1aeU5DMWthUzUwWldOb0xtOXlZVzVuClpUQWVGdzB5TVRBeU1USXhNREl6TXpWYUZ3MHlNakF5TVRJeE1ESXpNelZhTUcweEN6QUpCZ05WQkFZVEFrWlMKTVJFd0R3WURWUVFJREFoSmM4T0R3cWh5WlRFUk1BOEdBMVVFQnd3SVIzSmxibTlpYkdVeERqQU1CZ05WQkFvTQpCVUpQU1U1Qk1TZ3dKZ1lEVlFRRERCOW9kSFJ3WW1sdUxtRndjSE11Wm5JMExXUnBMblJsWTJndWIzSmhibWRsCk1JR2ZNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0R05BRENCaVFLQmdRQ3MyeHZ4SEtUTkxxRVZWNnBITGtsZk5zWDYKV1FiZFptbzJxdDg0RXRtb1J4aHJPdmxyYVU3K3ZyaXRBSldHWlp1STZVQWR6OHJLNTl4Zk8rRXoyb0ptMEtOMQpldVRHSDV5RG9uYjB5aEViUlJTb3VRWHQ1VHJpWS9RRC9ITEU1K251cmJoNUFFK2ErTDRDZmpYbFBGUWxrMDVzClMrSHJ6ZmRNbERKRzU5dlFEd0lEQVFBQk1BMEdDU3FHU0liM0RRRUJCUVVBQTRHQkFCTVdYMVJDTU9KTVEra2sKakIyZDRCWVJvU2xOY0xiMFRsS1liM2RoRjI0QnBsNDVaak5FMERLL1VYVnFVeHZiend4TldMbktMU2tkU09megp6dVJRVEQ5b3I4K1dyN1dLRm0rckU5eWN4QzJQd2p0cTlLbWlSaDdWbTY1MmxJRWVsWjkvemowOGJXbDJXSzdVCnI0OUQvUlRTZENoM3NRMTVwR2NjdGVNeWNQODUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+kind: Secret
+metadata:
+ name: ssl
+type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin-deployment
+  labels:
+    app: httpbin-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin-pod
+  template:
+    metadata:
+      labels:
+        app: httpbin-pod
+    spec:
+      containers:
+      - name: tshark
+        image: danielguerra/alpine-tshark 
+        command:
+          - "tshark" 
+          - "-i" 
+          - "eth0" 
+          - "-Y" 
+          - "http" 
+          - "-V"  
+          - "dst" 
+          - "port"
+          - "80"
+      - name: httpbin
+        image: kennethreitz/httpbin
+        volumeMounts:
+          - mountPath: "/app/ssl"
+            name: ssl-cert
+            readOnly: true
+        imagePullPolicy: Always
+        command:
+        - "gunicorn"
+        - "-b"
+        - "0.0.0.0:443"
+        - "httpbin:app"
+        - "-k"
+        - "gevent"
+        - "--capture-output"
+        - "--error-logfile"
+        - "-"
+        - "--access-logfile"
+        - "-"
+        - "--access-logformat"
+        - "'%(h)s %(t)s %(r)s %(s)s Host: %({Host}i)s} Header-i: %({Header}i)s Header-o: %({Header}o)s'"
+        - "--certfile"
+        - "/app/ssl/server.crt"
+        - "--keyfile"
+        - "/app/ssl/server.key"
+      volumes:
+        - name: ssl-cert
+          secret:
+            secretName: ssl
